@@ -142,12 +142,6 @@ Processingは、Java を単純化し、グラフィック機能に特化した�
        h = 四角形の高さ
 
  \item \textbf{円を書く}: ellipse(x, y, w, h);
-       
-       x = x座標、
-       y = y座標、
-       w = 円の幅、
-       h = 円の高さ
-
  \item \textbf{線を書く}: line(x1, y1, x2, y2);
        
        x1 = 始点のx座標、
@@ -156,133 +150,105 @@ Processingは、Java を単純化し、グラフィック機能に特化した�
        y2 = 終点のy座標
 
  % \item \textbf{三角形を書く}: triangle(x1, y1, x2, y2, x3, y3);
-
 \end{itemize}
-
-\subsubsection*{サンプルコード}
-
-\begin{figure}[h!]
- \begin{minipage}{0.65\columnwidth}
-  \begin{lstlisting}
-   // 画面サイズを幅300px、高さ200pxに設定
-   size(300, 200);
-
-   rect(10, 30, 120, 100); // 四角形を描く
-
-   line(10, 10, 290, 190); // 線を描く
-
-   ellipse(200, 120, 100, 150); // 円を描く
-  \end{lstlisting}  
- \end{minipage}
- \begin{minipage}{0.35\columnwidth}
-  \centering
-  \includegraphics[width=0.5\columnwidth]{img/circuit01.eps}
-  % \includegraphics[width=0.5\columnwidth]{img/sample_code_01.eps}
- \end{minipage}
-\end{figure}
 
 
 \subsection*{図形の色を変える}
+% \begin{tabular}{lll}
+%  \textbf{図形の色を変える:} & fill(r, g, b); & r, g, b をそれぞれ 256 段階で指定 \\
+%  \textbf{図形の色を消す:} & noFill(); &  \\ 
+%  \textbf{線の色を変える:} & stroke(r, g, b); &  \\ 
+%  \textbf{線の色を消す:} & noStroke(); &  \\ 
+%  % \textbf{線の幅を指定する:} & strokeWeight(weight); & weight = 線の太さ \\ 
+%  \textbf{ウィンドウの背景色を変える:} & background(r, g, b); &  \\ 
+% \end{tabular}
+Processing で色を指定する最も簡単な方法は、Red、Green、Blue をそれぞれ 256 段階で指定する方法です。
+\begin{lstlisting}
+ // 四角形を赤で表示する
+ fill(255, 0, 0);        // 赤は r = 255, g = 0, b = 0
+ rect(10, 10, 100, 50);
+\end{lstlisting}
+グレースケールで指定する方法もあります。
+\begin{lstlisting}
+ fill(0);               // 0 (黒) から 255 (白) で指定
+\end{lstlisting}
+白から黒の色で指定したいときはこちらの方が楽です。
 
 \begin{itemize}
- \item \textbf{図形に色をつける}: fill(r, g, b);
-
-       r, g, b をそれぞれ 256 段階で指定
-       % r = Red の値
-       % g = Green の値
-       % b = Blue の値
-
-       % \begin{itembox}{Tips}
-       % 	fill(r, g, b) のように RBG それぞれの値で色を指定する方法の他に、	
-       % 	fill(grey) のように黒から白の 256 段階で指定する方法があります。
-       
-       % 	例えば、fill(0) は黒、fill(255) は白になります。
-       % 	また、fill(0, 0, 0) と fill(0) は同じ意味です。
-       % \end{itembox}
-
-       % gray = 0 -> 黒、
-       % gray = 255 -> 白
-       % value = r, g, b に同じ値を代入する
-
- \item \textbf{色を消す}: noFill();
-       
- \item \textbf{縁取り線に色をつける}: stroke(r, g, b);
-       
-       % stroke(value);
-
- \item \textbf{縁取り線の幅を調節する}: strokeWeight(weight);
-       
-       weight = 線の太さ
-
- \item \textbf{縁取り線を消す}: noStroke();
-
- \item \textbf{ウィンドウの背景色を指定する}: background(r, g, b);
-
-       % background(grey);
-
+ \item \textbf{図形の色を変える}: fill(r, g, b);
+ \item \textbf{図形の色を消す}: noFill();
+ \item \textbf{線に色をつける}: stroke(r, g, b);
+ \item \textbf{線の色を消す}: noStroke();
+ \item \textbf{ウィンドウの背景色を変える}: background(r, g, b);
 \end{itemize}
 
-\subsubsection*{サンプルコード}
 
-\begin{figure}[h!]
- \begin{minipage}{0.65\columnwidth}
-  \begin{lstlisting}
-   size(300, 200);
-
-   // 背景を黒に
-   // background(0, 0, 0); と同じ意味
-   background(0); 
-
-   fill(255, 0, 0); // 四角形を赤に
-   rect(10, 30, 120, 100);
-
-   stroke(0, 255, 0); // 線を緑に
-   line(10, 10, 290, 190);
-
-   strokeWeight(3); // 線の太さを3pxに
-   fill(0, 0, 255); // 円を緑に
-   ellipse(200, 120, 100, 150);
-  \end{lstlisting}
- \end{minipage}
- \begin{minipage}{0.35\columnwidth}
-  \centering
-  \includegraphics[width=0.5\columnwidth]{img/circuit01.eps}
-  % \includegraphics[width=0.5\columnwidth]{img/sample_code_01.eps}
- \end{minipage}
-\end{figure}
-
-
-
-\subsection*{アニメーションを作る}
+\subsection*{初期化とループ処理}
 Processing では、プログラムを実行時に setup 関数が 1 度実行され (初期化) 、その後 draw関数 が繰り返される (ループ処理)。
+setup と draw を用いるとアニメーションなどの動的な表現ができる。
 
 \begin{lstlisting}
  void setup(){
    // 初期化の処理をここに書く
    // プログラム開始時に1度だけ実行される
-   size(200, 200); // ウィンドウサイズの指定
+   // size(w, h); などはここへ
  }
 
  void draw(){
    // 繰り返したい処理をここに書く
    // setup()が実行された後にプログラムが終了するまで繰り返される
-   line
  }
 \end{lstlisting}
 
 
-\begin{itemize}
- \item \textbf{マウスの座標を取得する}: mouseX, mouseY
- \item \textbf{hoge}
-\end{itemize}
+\subsection*{TRY1: Processing でベースとなるプログラムを作成する}
+\begin{enumerate}
+ \item ウィンドウサイズを幅 300 pixel、高さ 300 pixel に
+ \item ウィンドウの背景色を黒に
+ \item 幅 100 pixel、幅 100 pixel の円を青色で表示
+\end{enumerate}
+
+\begin{lstlisting}
+ void setup() {
+   size(???, ???);
+ }
+
+ void draw() {
+   background(???, ???, ???);
+
+   fill(???, ???, ???);
+   ellipse(???, ???, ??? ???);
+ }
+\end{lstlisting}
+
+\subsection*{TRY2: マウスボタンがクリックされたら図形を表示する}
+TRY1 で作ったプログラムを改造し、マウスが押されたときにウィンドウに図形が表示されるようにする。
+
+Processing では、あらかじめ用意されている「mousePressed」という変数を用いることで、マウスのクリック動作を簡単に検出することができる。
+\begin{lstlisting}
+ if (mousePressed) {
+   // マウスボタンを押したときの処理
+ } else {
+   // マウスボタンを押していないときの処理
+ }
+\end{lstlisting}
 
 
-% \begin{itembox}{Tips}
-%  メニューバーの「Help → Reference」でインターネットブラウザが起動し、より詳しい説明が確認できますので、そちらも参考にしてください。
-%  ただし、英語表記です。
-%  Processing にはあらかじめサンプルコード (お手本になるプログラム) が、たくさん用意されているので、それを動かしてみてどんなことができるかを見ておくのも良いかもしれません。
-%  サンプルコードは、メニューバーの「File → Example」から見ることができます。
-% \end{itembox}
+\subsection*{TRY3: マウスポインタで図形を操作する}
+TRY2 で作ったプログラムを改造し、マウスポインタの位置に合わせて図形が表示されるようにする。
+
+Processing では、あらかじめ用意されている「mouseX」「mouseY」という変数を用いることで、マウスポインタの x 座標と y 座標を取得できる。
+
+
+\begin{lstlisting}
+ void setup() {
+   size(300, 300);
+ }
+
+ void draw() {
+   ellipse(mouseX, mouseY, 32, 32);
+ }
+\end{lstlisting}
 
 
 
@@ -292,33 +258,39 @@ Processing では、プログラムを実行時に setup 関数が 1 度実行�
 よく、電気の流れは水の流れに例えられます。
 厳密にいえばさまざまな違いはありますが、その性質を大まかにとらえるには、水の流れに例えて理解するのは有効な方法です。
 
-\subsubsection*{電圧}
-% 電圧は 2 点間の高度 (電位) の違いを表す用語です。
-% 水は高度の高いところから低いところに向けて流れますが、電気も電位の高いところから低いところに向けて流れます。
-% 水の場合には、それぞれの地点の高さを比較するのに、海抜などを基準として用います。
-% 電気の場合には、グランド (GND) を基準として比較します。
-% 電子回路ではよく「グランドを接続する」ということが行われます。
-% これは、基準であるグランドを共通にしないと、回路の部分ごとの電圧の基準が共通にならず、意図した通りに電気が流れてくれないためです。
-% 電圧の単位はボルト (V) です。
-% 数字が大きければ大きいほど、電圧が高いことを示します。
+\begin{itemize}
+ \item \textbf{電圧}
+       
+       電圧は 2 点間の高度 (電位) の違いを表す用語です。
+       水は高度の高いところから低いところに向けて流れますが、電気も電位の高いところから低いところに向けて流れます。
+       水の場合には、それぞれの地点の高さを比較するのに、海抜などを基準として用います。
+       電気の場合には、グランド (GND) を基準として比較します。
+       電子回路ではよく「グランドを接続する」ということが行われます。
+       これは、基準であるグランドを共通にしないと、回路の部分ごとの電圧の基準が共通にならず、意図した通りに電気が流れてくれないためです。
+       電圧の単位はボルト (V) です。
+       数字が大きければ大きいほど、電圧が高いことを示します。
 
-\subsubsection*{電流}
-% 電流は、水の流れが水流であるのと同じように電気の流れです。
-% 電流は、電圧の高いところから低いところに向けて流れます。
-% 水流も多い場合少ない場合がありますが、電流も多い場合や少ない場合があります。
-% 電流の単位はアンペア (A) です。
-% 数字が大きければ大きいほど、多くの電気が流れることを意味します。
+ \item \textbf{電流}
+      
+       電流は、水の流れが水流であるのと同じように電気の流れです。
+       電流は、電圧の高いところから低いところに向けて流れます。
+       水流も多い場合少ない場合がありますが、電流も多い場合や少ない場合があります。
+       電流の単位はアンペア (A) です。
+       数字が大きければ大きいほど、多くの電気が流れることを意味します。
 
-\subsubsection*{抵抗}
-% 水の場合にも、何も障害物がない場合と、くねくね曲がって流れにくくしている場合では、水の流れにく
-% さが異なります。
-% 同様に、電気の場合にも電流が流れやすい場合と流れにくい場合があります。
-% この電流の流れにくさを表すのが抵抗です。
-% 抵抗の単位はオーム (Ω) です。
-% 数字が大きければ大きいほど、電流が流れにくいことを示します。
+ \item \textbf{抵抗}
+       
+       水の場合にも、何も障害物がない場合と、くねくね曲がって流れにくくしている場合では、水の流れにくさが異なります。
+       同様に、電気の場合にも電流が流れやすい場合と流れにくい場合があります。
+       この電流の流れにくさを表すのが抵抗です。
+       抵抗の単位はオーム (Ω) です。
+       数字が大きければ大きいほど、電流が流れにくいことを示します。
 
-\subsubsection*{よく出てくる補助単位}
-電圧、電流、抵抗の単位はそれぞれボルト、アンペア、オームですが、実際にはこれに接頭辞がついた補助単位が用いられる場合が多くあります。
+\end{itemize}
+
+
+\subsubsection*{補助単位}
+電圧、電流、抵抗の単位はそれぞれボルト ($V$)、アンペア、オームですが、実際にはこれに接頭辞がついた補助単位が用いられる場合が多くあります。
 以下は、登場する補助単位の例です。
 \begin{itemize}
  \item 1,000 倍を表す単位がキロ (例: 10 kΩ)
@@ -326,11 +298,13 @@ Processing では、プログラムを実行時に setup 関数が 1 度実行�
  \item 1/1,000 を表す単位がミリ (例: 10 mA)
 \end{itemize}
 
+
 \subsubsection*{オームの法則}
 電子部品に電圧をかけすぎたり、電流を流しすぎると壊れてしまう。
 そのために、電源側に抵抗器を配置し、電流量を調節する必要がある。
 
 オームの法則は、
+
 
 \begin{equation}
  V (電圧) = I (電流) \times R (抵抗)
@@ -343,8 +317,22 @@ R (抵抗) を求めるために指揮を変形すると、
 \end{equation}
 
 
-\subsection*{スイッチを押したら LED を点灯させる}
+\subsection*{スイッチによって LED を点灯させる回路を作る}
+スイッチを押すと LED が点灯する、という回路を作ってみましょう
+今回は電源を取るために Arduino を用います。
+Arduino を用いると、プログラムで LED を制御できますが、それは次回以降に。
+
 Arduino、スイッチ、抵抗、LED を用いて簡単な回路を組む。
+
+
+\subsubsection*{使うもの}
+\begin{itemize}
+ \item 電源 (Arduino, 5V)
+ \item ブレッドボード
+ \item LED
+ \item タクトスイッチ
+ \item 抵抗 (330 Ω)
+\end{itemize}
 
 % \subsubsection*{電源}
 % 電力の供給元
