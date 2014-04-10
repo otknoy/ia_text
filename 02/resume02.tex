@@ -86,9 +86,37 @@ Processing と Arduino を接続し LED を制御する。
 \end{itemize}
 
 
-\section{回路を組む}
+\section{Arduino を PC とつなげる}
+本実習では Processing で Arduino を制御します。
+今回は Arduino の Digital Input/Output を用いて LED の制御を行います。
+Digital というのは ON/OFF、0/1 で表せるということです。
+すなわち、LED の ON/OFF を出力したり、スイッチの ON/OFF を入力するということです。
 
 \subsection*{LED を点滅させる}
+Digital Output を使って LED を点滅させてみましょう。
+
+まず、Processing から Arduino を用いるための準備をします。
+\begin{lstlisting}
+ import processing.serial.*;
+ import cc.arduino.*;
+
+ Arduino arduino;
+
+ void setup() {
+   size(400, 300);
+   // Arduino.list()[0] は環境によって変える
+   arduino = new Arduino(this, Arduino.list()[0], 57600);
+ }
+\end{lstlisting}
+これらの命令は今後の実習で Arduino を用いる際に必ず使うので覚えておきましょう。
+
+\subsubsection*{Digital Output}
+\begin{itemize}
+ \item Digital Output の説明
+ \item arduino.pinMode(ledPin, Arduino.OUTPUT);
+ \item arduino.digitalWrite(ledPin, Arduino.HIGH);
+\end{itemize}
+
 \begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
@@ -111,8 +139,19 @@ void draw() {
 }
 \end{lstlisting}
 
+
 \subsection*{スイッチの ON/OFF を読み取る}
+
 \subsubsection*{プルアップ/プルダウン抵抗}
+プルアップ/プルダウン抵抗についてのせつめいほげほげ
+
+\subsubsection*{Digital Input}
+\begin{itemize}
+ \item Digital Input の説明
+ \item arduino.pinMode(switchPin, Arduino.INPUT);  
+ \item arduino.digitalRead(switchPin)
+\end{itemize}
+
 \begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
@@ -137,9 +176,8 @@ void draw() {
 
 
 
-
-
-\subsection*{hoge}
+\subsection*{スイッチを押すと LED が点灯するようにする}
+上 2 つの合わせ技。
 
 \begin{lstlisting}
 import processing.serial.*;
@@ -152,7 +190,7 @@ int switchPin = 8;
 void setup() {
   size(400, 300);
   arduino = new Arduino(this, Arduino.list()[0], 57600);
-  arduino.pinMode(switchPin, Arduino.INPUT);  
+  arduino.pinMode(switchPin, Arduino.INPUT);
   arduino.pinMode(ledPin, Arduino.OUTPUT);
 }
  
@@ -166,5 +204,8 @@ void draw() {
   }
 }
 \end{lstlisting}
+
+これで入力と出力の両方が実現できました。
+
 
 \end{document}
