@@ -70,6 +70,7 @@
 % \section*{\LARGE{第2講 プログラムと I/O モジュールを組み合わせる}}
 \section*{\LARGE{第2講 プログラミングでLEDを制御する}}
 Processing と Arduino を接続し LED を制御する。
+スイッチの ON/OFF を取得する。
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -86,16 +87,12 @@ Processing と Arduino を接続し LED を制御する。
 \end{itemize}
 
 
-\section{Arduino を PC とつなげる}
+\section{Processing から Arduino を制御する}
 本実習では Processing で Arduino を制御します。
-今回は Arduino の Digital Input/Output を用いて LED の制御を行います。
-Digital というのは ON/OFF、0/1 で表せるということです。
-すなわち、LED の ON/OFF を出力したり、スイッチの ON/OFF を入力するということです。
+今回は Arduino の Digital Output を用いて LED の制御したり、
+Digital Input を用いてスイッチの ON/OFF を取得したりします。
 
-\subsection*{LED を点滅させる}
-Digital Output を使って LED を点滅させてみましょう。
-
-まず、Processing から Arduino を用いるための準備をします。
+まず、Processing から Arduino を用いるための準備をしましょう。
 \begin{lstlisting}
  import processing.serial.*;
  import cc.arduino.*;
@@ -103,12 +100,18 @@ Digital Output を使って LED を点滅させてみましょう。
  Arduino arduino;
 
  void setup() {
-   size(400, 300);
    // Arduino.list()[0] は環境によって変える
    arduino = new Arduino(this, Arduino.list()[0], 57600);
  }
 \end{lstlisting}
-これらの命令は今後の実習で Arduino を用いる際に必ず使うので覚えておきましょう。
+これらの命令は今後も Arduino を用いる際に必ず使うので忘れないように。
+
+\begin{itembox}{Tips}
+ COMポート指定についてほげほげ書く
+\end{itembox}
+
+\subsection*{LED を点滅させる}
+Digital Output を使って LED を点滅させてみましょう。
 
 \subsubsection*{Digital Output}
 \begin{itemize}
@@ -144,6 +147,19 @@ void draw() {
 
 \subsubsection*{プルアップ/プルダウン抵抗}
 プルアップ/プルダウン抵抗についてのせつめいほげほげ
+
+\begin{figure}[h]
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[width=0.8\columnwidth]{img/circuit.eps}
+  \caption{プルアップ抵抗}
+ \end{minipage}
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[width=0.8\columnwidth]{img/circuit.eps}
+  \caption{プルダウン抵抗}
+ \end{minipage}
+\end{figure}
 
 \subsubsection*{Digital Input}
 \begin{itemize}
