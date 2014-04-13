@@ -77,32 +77,37 @@ CdSセル: CdS(硫酸カドミウム)を主成分とする電子部品。
 表面に当たる光の量に従って抵抗値が変化する。
 周りが暗いと抵抗値が大きく、明るいと抵抗値が小さくなる。
 
-\subsection*{利点}
 \begin{itemize}
- \item 可視光線に対して高感度
- \item 小型で軽量
- \item 比較的安価
+ \item \textbf{利点}
+       \begin{itemize}
+	\item 可視光線に対して高感度
+	\item 小型で軽量
+	\item 比較的安価
+       \end{itemize}
+ \item \textbf{欠点}
+       \begin{itemize}
+	\item 反応速度がやや遅め
+	\item カドミウム = 有害物質
+       \end{itemize}
 \end{itemize}
-	    
-\subsection*{欠点}
-\begin{itemize}
- \item 反応速度がやや遅め
- \item カドミウム=有害物質
-\end{itemize}
 
 
-\section{回路を組み立てる}
+\section{光センサを利用する}
 
-回路図
-
-\subsection*{TRY1}
+\subsection*{TRY1: 回路を組み立ててみよう}
 回路図を参考にして、光センサと Arduino を接続してみる。
 その際必ず、Arduino は PC から取り外した状態で配線すること!
 
-\subsubsection*{Processing から Arduino の アナログポートの値を取得する}
+回路図
 
-\subsection*{TRY2}
-TRY1 で組み立てた光センサの値を、println を使って、ログに表示してみる。
+\subsection*{Analog Input}
+Analog input の説明とコードをほげほげ
+
+
+\subsection*{TRY2: Processing から Arduino の光センサ値を取得してみよう}
+Processing から光センサの値を取得し光センサの値を観察しよう。
+
+TRY1 で組み立てた回路を用いて、光センサの値を println を使って、ログに表示してみる。
 
 [Hint 1]
 println (表示したい値);
@@ -124,44 +129,70 @@ println (表示したい値);
 \end{lstlisting}
 
 
-\section{Processingで文字を表示する}
+\subsection*{TRY3: センサの値をProcessingの画面にを表示してみよう}
+先ほどはコンソール(Processing IDE の下の黒いところ)にセンサから取得した値を表示しましたが、次は Processing の画面に表示してみましょう。
 
-PFont myFont;
-PFont オブジェクトの宣言。
-プログラムの頭に書く。
-複数宣言することで、違う種類のフォントを使用することができる。
+\subsubsection*{Processing で画面に文字を表示する}
+Processing で文字を表示するためには text() を用います。
+\begin{lstlisting}
+ void setup() {
+   size(400, 300);
+ }
 
- myFont : PFont オブジェクトの名前
-createFont(“useFont”, 32);
- フォントを作成し、PFontオブジェクトに読み込む命令。void setup の中に書く。
-  “useFont” : 使用したいフォント名 (Arial, MS Gothic, etc...)
-                  ※IDE上のタブのTools → Create Font... から 確認可能
-  
-数字
-: 作成するフォントのサイズ (大きくしすぎると、処理が重くなる。)
-textFont(myFont, 24);
- 使用するフォントの選択をする命令。
-  myFont = 使用するPFontオブジェクトの名前
-  数字 = フォントサイズの指定
-textAlign(LEFT);
- 文字の揃え位置を指定する命令。
-  LEFT
-: 左揃え(初期設定、宣言しなかった場合も)
-  CENTER : 中央揃え
-  RIGHT
-: 右揃え
-text(“hoge”, x, y);
+ void draw() {
+   // x = 50, y = 100 のところから "Interactive Art" の文字列を描く
+   text("Interactive Art", 50, 100);
+ }
+\end{lstlisting}
+
+また、 PFont を用いることによってフォントの種類を変更することができます。
+\begin{lstlisting}
+ PFont font;
+
+ void setup() {
+   size(400, 300);
  
- 文字を書く命令。
-  “hoge” : 表示文字列
-  x!! : x座標の位置
-  y!! : y座標の位置
+   font = createFont("font_name", 32); // フォントの用意
+   textFont(font, 24);
+ }
 
-\subsection*{TRY3}
-前回の資料も参考にしながら、Processing で 文字列を書いてみる。
+ void draw() {
+   text("Interactive Art", 50, 100);
+ }
+\end{lstlisting}
 
-[tips]: ウインドウ画面の幅や高さは、それぞれ width, height 変数で取得することができる。
+これらを利用して光センサから取得した値を画面に表示してみましょう。
 
+% PFont myFont;
+% PFont オブジェクトの宣言。
+% プログラムの頭に書く。
+% 複数宣言することで、違う種類のフォントを使用することができる。
+
+%  myFont : PFont オブジェクトの名前
+% createFont(“useFont”, 32);
+%  フォントを作成し、PFontオブジェクトに読み込む命令。void setup の中に書く。
+%   “useFont” : 使用したいフォント名 (Arial, MS Gothic, etc...)
+%                   ※IDE上のタブのTools → Create Font... から 確認可能
+  
+% 数字
+% : 作成するフォントのサイズ (大きくしすぎると、処理が重くなる。)
+% textFont(myFont, 24);
+%  使用するフォントの選択をする命令。
+%   myFont = 使用するPFontオブジェクトの名前
+%   数字 = フォントサイズの指定
+% textAlign(LEFT);
+%  文字の揃え位置を指定する命令。
+%   LEFT
+% : 左揃え(初期設定、宣言しなかった場合も)
+%   CENTER : 中央揃え
+%   RIGHT
+% : 右揃え
+% text(“hoge”, x, y);
+ 
+%  文字を書く命令。
+%   “hoge” : 表示文字列
+%   x!! : x座標の位置
+%   y!! : y座標の位置
 
 \subsection*{TRY4}
 TRY2、TRY3を参考にし、Processing の文字列 (text) で光センサの値を表示する。
