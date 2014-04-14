@@ -110,16 +110,20 @@ Digital Input を用いてスイッチの ON/OFF を取得したりします。
  COMポート指定についてほげほげ書く
 \end{itembox}
 
+
 \subsection*{LED を点滅させる}
 Digital Output を使って LED を点滅させてみましょう。
 
-\subsubsection*{Digital Output}
-\begin{itemize}
- \item Digital Output の説明
- \item arduino.pinMode(ledPin, Arduino.OUTPUT);
- \item arduino.digitalWrite(ledPin, Arduino.HIGH);
-\end{itemize}
+\subsubsection*{回路を組む}
+hoge
 
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=80mm]{img/pullup.eps}
+ \caption{LEDの回路に変更}
+\end{figure}
+
+\subsubsection*{プログラムを書く}
 \begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
@@ -142,13 +146,20 @@ void draw() {
 }
 \end{lstlisting}
 
+\begin{itemize}
+ \item Digital Output の説明
+ \item arduino.pinMode(ledPin, Arduino.OUTPUT);
+ \item arduino.digitalWrite(ledPin, Arduino.HIGH);
+\end{itemize}
+
 
 \subsection*{スイッチの ON/OFF を読み取る}
+Arduino の Digital Input を用いてスイッチの ON/OFF を取得する。
 
-\subsubsection*{プルアップ/プルダウン抵抗}
+\subsubsection*{回路を組む}
 プルアップ/プルダウン抵抗についてのせつめいほげほげ
 
-\begin{figure}[h]
+\begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
   \centering
   \includegraphics[width=0.8\columnwidth]{img/pullup.eps}
@@ -161,13 +172,8 @@ void draw() {
  \end{minipage}
 \end{figure}
 
-\subsubsection*{Digital Input}
-\begin{itemize}
- \item Digital Input の説明
- \item arduino.pinMode(switchPin, Arduino.INPUT);  
- \item arduino.digitalRead(switchPin)
-\end{itemize}
 
+\subsubsection*{プログラムを書く}
 \begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
@@ -190,11 +196,20 @@ void draw() {
 }
 \end{lstlisting}
 
+\begin{itemize}
+ \item Digital Input の説明
+ \item arduino.pinMode(switchPin, Arduino.INPUT);  
+ \item arduino.digitalRead(switchPin)
+\end{itemize}
 
 
 \subsection*{スイッチを押すと LED が点灯するようにする}
 上 2 つの合わせ技。
 
+\subsubsection*{回路を組む}
+
+
+\subsubsection*{プログラムを書く}
 \begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
