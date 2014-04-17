@@ -71,6 +71,35 @@
 光センサと Arduino を用いて明るさの変化を計測する。
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{PWMで明かりをコントロール}
+\begin{lstlisting}
+//LEDのフェードインとフェードアウト
+
+import processing.serial.*;
+import cc.arduino.*;
+ 
+Arduino arduino;
+int ledPin = 3;   //LEDが接続されたピン
+int i = 0;        //カウントアップとダウンに使用
+ 
+void setup() {
+  size(400, 200);
+  arduino = new Arduino(this, Arduino.list()[6], 57600);
+  arduino.pinMode(ledPin, Arduino.OUTPUT);   //LEDのピンの出力に設定
+}
+
+void draw() {
+  for (i = 0; i < 255; i++) {    //0から254までループ（フェードイン）
+  arduino.analogWrite(ledPin,i); // LEDの明るさをセット
+  delay(10);                     // 10ミリ秒停止 analogWrite()は一瞬なので
+                                 // これがないと変化が目に見えない  
+  }
+  for (i = 255; i > 0; i--) { //255から1まで（フェードアウト）
+    arduino.analogWrite(ledPin,i );
+    delay(10);
+  }
+}
+\end{lstlisting}
 
 \section{光センサとは}
 CdSセル: CdS(硫酸カドミウム)を主成分とする電子部品。
