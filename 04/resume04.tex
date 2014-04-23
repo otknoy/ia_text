@@ -67,40 +67,11 @@
 \begin{document}
 % title
 \section*{\LARGE{第4講 明るさをはかる}}
-光センサと Arduino を用いて明るさの変化を計測する。
+Arduino の Analog Input を用いて光センサの値を取得する。
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{PWMで明かりをコントロール}
-\begin{lstlisting}
-//LEDのフェードインとフェードアウト
 
-import processing.serial.*;
-import cc.arduino.*;
- 
-Arduino arduino;
-int ledPin = 3;   //LEDが接続されたピン
-int i = 0;        //カウントアップとダウンに使用
- 
-void setup() {
-  size(400, 200);
-  arduino = new Arduino(this, Arduino.list()[6], 57600);
-  arduino.pinMode(ledPin, Arduino.OUTPUT);   //LEDのピンの出力に設定
-}
-
-void draw() {
-  for (i = 0; i < 255; i++) {    //0から254までループ（フェードイン）
-  arduino.analogWrite(ledPin,i); // LEDの明るさをセット
-  delay(10);                     // 10ミリ秒停止 analogWrite()は一瞬なので
-                                 // これがないと変化が目に見えない  
-  }
-  for (i = 255; i > 0; i--) { //255から1まで（フェードアウト）
-    arduino.analogWrite(ledPin,i );
-    delay(10);
-  }
-}
-\end{lstlisting}
-
-\section{光センサとは}
+\section{光センサ}
 CdSセル: CdS(硫酸カドミウム)を主成分とする電子部品。
 表面に当たる光の量に従って抵抗値が変化する。
 周りが暗いと抵抗値が大きく、明るいと抵抗値が小さくなる。
@@ -119,45 +90,36 @@ CdSセル: CdS(硫酸カドミウム)を主成分とする電子部品。
        \end{itemize}
 \end{itemize}
 
+\subsection*{光センサの値を取得する}
+光センサの値を取得するためには、Analog Input を用います。
+Analog Input を用いる場合は A0 〜 A5 ピンを用います。接続するピンに注意してください。
 
-\section{光センサを利用する}
+\subsubsection*{回路を組む}
+峻よろしく
 
-\subsection*{TRY1: 回路を組み立ててみよう}
-回路図を参考にして、光センサと Arduino を接続してみる。
-その際必ず、Arduino は PC から取り外した状態で配線すること!
-
-回路図
-
-\subsection*{Analog Input}
-Analog input の説明とコードをほげほげ
-
-
-\subsection*{TRY2: Processing から Arduino の光センサ値を取得してみよう}
-Processing から光センサの値を取得し光センサの値を観察しよう。
-
-TRY1 で組み立てた回路を用いて、光センサの値を println を使って、ログに表示してみる。
-
-[Hint 1]
-println (表示したい値);
-
-[Hint 2]
-
+\subsubsection*{プログラムを書く}
+Processing から Digital Input を使う場合はは arduino.digitalRead(pinNum); を使いましたが、
+Analog Input を使うの場合は代わりに arduino.analogRead(pinNum); を使います。
 \begin{lstlisting}
- import processing.gainer.*;
- Gainer gainer;
+import processing.serial.*;
+import cc.arduino.*;
+ 
+Arduino arduino;
+int opticalSensorPin = 3; // 光センサを A3 番ピンに接続した場合
+ 
+void setup() {
+  arduino = new Arduino(this, Arduino.list()[0], 57600);
+  arduino.pinMode(opticalSensorPin, Arduino.INPUT); // ピンモードを INPUT に
+}
 
- void setup(){
-   gainer = new Gainer (this);
-   gainer.???;
- }
-
- void draw(){
-   ???(???);
- }
+void draw() {
+  int sensorValue = arduino.analogRead(opticalSensorPin); // Analog Input
+  println(sensorValue);
+}
 \end{lstlisting}
 
 
-\subsection*{TRY3: センサの値をProcessingの画面にを表示してみよう}
+\section{Processingの画面に文字を表示する}
 先ほどはコンソール(Processing IDE の下の黒いところ)にセンサから取得した値を表示しましたが、次は Processing の画面に表示してみましょう。
 
 \subsubsection*{Processing で画面に文字を表示する}
@@ -174,6 +136,9 @@ Processing で文字を表示するためには text() を用います。
 \end{lstlisting}
 
 また、 PFont を用いることによってフォントの種類を変更することができます。
+
+Tools → Create Font の説明を！
+
 \begin{lstlisting}
  PFont font;
 
@@ -191,42 +156,8 @@ Processing で文字を表示するためには text() を用います。
 
 これらを利用して光センサから取得した値を画面に表示してみましょう。
 
-% PFont myFont;
-% PFont オブジェクトの宣言。
-% プログラムの頭に書く。
-% 複数宣言することで、違う種類のフォントを使用することができる。
-
-s%  myFont : PFont オブジェクトの名前
-% createFont(“useFont”, 32);
-%  フォントを作成し、PFontオブジェクトに読み込む命令。void setup の中に書く。
-%   “useFont” : 使用したいフォント名 (Arial, MS Gothic, etc...)
-%                   ※IDE上のタブのTools → Create Font... から 確認可能
-  
-% 数字
-% : 作成するフォントのサイズ (大きくしすぎると、処理が重くなる。)
-% textFont(myFont, 24);
-%  使用するフォントの選択をする命令。
-%   myFont = 使用するPFontオブジェクトの名前
-%   数字 = フォントサイズの指定
-% textAlign(LEFT);
-%  文字の揃え位置を指定する命令。
-%   LEFT
-% : 左揃え(初期設定、宣言しなかった場合も)
-%   CENTER : 中央揃え
-%   RIGHT
-% : 右揃え
-% text(“hoge”, x, y);
- 
-%  文字を書く命令。
-%   “hoge” : 表示文字列
-%   x!! : x座標の位置
-%   y!! : y座標の位置
-
-\subsection*{TRY4}
-TRY2、TRY3を参考にし、Processing の文字列 (text) で光センサの値を表示する。
-
-[Hint]
 \begin{lstlisting}
+// Arduino版に書き換える
 import processing.gainer.*;
 Gainer myGainer;
 PFont myFont;
@@ -256,177 +187,7 @@ fill(???);
 	
 text(“value = ”+ myGainer.analogInput[0], ???, ???);
 }
- 
 \end{lstlisting}
 \end{document}
 
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section*{\LARGE{第4講 曲げセンサの値を取得する}}
-% 曲げセンサの値を Arduino を用いて取得する。
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \section{曲げセンサとは}
-% 曲げセンサは、センサ本体を曲げると抵抗値が変化するセンサである。
-% プリント面が外側になるようにして使用する。(反対方向の値が取りたい場合は、2本組み合わせて使うと良い。)
-
-% 0度 ...... 約10KΩ
-% ↓
-% (曲げると徐々に抵抗値が増加)
-% ↓
-% 90度 ...... 約30∼40KΩ
-
-% \begin{itembox}{注意!}
-%  \begin{itemize}
-%   \item 強い力で無理やり折り曲げないように
-
-% 	薄いフィルム状のセンサであるため、強い力で折りたたんだりすると、癖が付き正しい値が取得できなくなってしまう。
-
-%   \item ブレッドボードに接続するときは必ず根本を持つ
-	
-% 	接続する端子部分は折れやすいので取り扱いに注意すること。
-%  \end{itemize}
-% \end{itembox}
-
-% \section{回路を組み立てる}
-
-% 回路図
-
-% \subsection*{TRY1}
-% 回路図を参考にして、曲げセンサと Arduino を接続してみる。
-% 必ず、Arduino を PC から取り外した状態で配線すること。
-
-% \subsection*{TRY2}
-% Processing の println 文を使って、曲げセンサで取得できる数値を確認する。
-% できなければ前回の講義の資料を参考にしてみよう。
-% 使っているセンサが「光」から「曲げ」に変わっただけだ。
-
-% \section{Processingで画像を表示する}
-% Processing で画像を表示するには、sketch フォルダ(Processing のファイルが入っているフォルダ)内の data フォルダに使用したい画像をあらかじめ入れておく必要がある。
-% 自分でフォルダにコピーしても良いが、メニューバーの Sketch → Add Files... を選択し、使いたいファイル名を選ぶことで、ファイルが data フォルダにコピーされるので覚えておくと便利。
-
-% PImage hogeImage;
-%  PImage オブジェクトの宣言。void setup() より前の、プログラムの文頭に書く。複数回
-% 宣言しておくことで、違う種類の画像をプログラム内で用いることができる。
-% !
-% hogeImage = PImage オブジェクトの名前
-% loadImage( “image.jpg” );
-%  PImage オブジェクトに画像をロードする命令文。void setup() の中に書く。
-% !
-% “image.jpg” = 使用したい画像名 ( .bmp .jpg .png 形式の画像が使用できる。)
-% imageMode(CORNER);
-%  画像を配置する時に基準となる原点を変更する命令文。void setup()内に書くことが多い。
-% ! CORNER
-% =
-% ! CORNERS =
-% ! CENTER
-% 左上が原点(デフォルト)
-% 左上のx座標、左上のy座標、右下のx座標、右下のy座標の順に指定
-% =
-% 画像の中心が原点
-% image(<<PImageオブジェクト名>>, x, y, wid, hei);
-%  アプリケーション画面に画像を表示する命令文。void draw() の中に書く。
-% !
-% x !
-% = !
-% 原点のx座標! !
-% !
-% y !
-% 2
-% = !
-% 原点のy座標
-% 2013年度 春学期授業       インタラクティブ・アート実習         担当:松下 光範
-% !
-% wid ! = !
-% 表示する画像の幅!
-% !
-% hei ! = !
-% 表示する画像の高さ
-
-
-% \subsection*{TRY3}
-% 幅640px、高さ480pxの画面に、好きな画像を表示するプログラムを作成する。
-
-% \subsubsection*{Processing のシステム変数を利用する}
-% Processing では、プログラムが実行中に決まる様々なデータを、Processing 自体が宣言した変数の中に収めてプログラム内で使用することができる。
-% これを用いることで、プログラムを簡単に書くことができる。このような Processing があらかじめ用意してくれている変数のことを「システム変数」と呼ぶ。
-
-% width
-% !
-% ウインドウ横幅のピクセル数
-% height
-% !
-% ウインドウ縦幅のピクセル数
-% mouseX
-% !
-% 現在のマウスポインタのx座標
-% mouseY
-% !
-% 現在のマウスポインタのy座標
-% pmouseX
-% !
-% 前フレームでのマウスポインタのx座標
-% pmouseY
-% !
-% 前フレームでのマウスポインタのy座標
-
-
-% \subsection*{TRY4}
-% TRY3 のプログラムを改変して、マウスポインタの位置に画像が表示されるようにする。
-
-% <Hint>
-% \begin{lstlisting}
-%  PImage img;
-%  void setup(){
-%    size(640, 480);
-%    colorMode(RGB, 256);
-%    img = loadImage("image001.png");
-%    imageMode(CENTER);
-%  }
  
-%  void draw(){
-%    image(img, mouseX, mouseY, width, height);
-%  } 
-% \end{lstlisting}
-
-
-% map 関数を利用する
-%  曲げセンサの場合、取得できる数値の範囲が狭いため、これをうまく利用するためには、
-% Processing の Calculation 関数の一つの、map 関数を利用すると良い。
-% map(value, low1, high1, low2, high2);
-% ! value! = 変換したい変数の名前 (ex: gainer.analogInput[0])
-%   ! 
-% ! low1! ! = センサで得られる下限値
-% ! high1! = センサで得られる上限値
-%   ! 
-% ! low2! ! = 変換したい(割り当てたい)変数の下限値
-% ! high2! = 変換したい(割り当てたい)変数の上限値
-%   !
-  
-% \subsection*{TRY5}
-% TRY4 のプログラムを改造して、曲げセンサを曲げると画像が拡大・縮小するようにする。
-% 出来る人は、画像にフェードアウト効果もつけてみよう。
-
-% <Hint>
-% \begin{lstlisting}
-%  import processing.gainer.*;
-%  PImage img;
-%  Gainer gainer;
-
-%  void setup(){
-%    size(640, 480);
-%    colorMode(RGB, 256);
-%    img = loadImage("image001.png");
-%    imageMode(CENTER);
-%    gainer = new Gainer(this);
-%    gainer.beginAnalogInput();
-%  }
- 
-%  void draw(){
-%    background(255);
-%    float val = map(gainer.analogInput[0], ???, ???, 0, 1);
-%    image(img, mouseX, mouseY, ??? * width, ??? * height);
-%  }
-% \end{lstlisting}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
