@@ -67,8 +67,6 @@
 \begin{document}
 
 % title
-% \section*{\LARGE{第3講 明るさをはかる}}
-% 光センサと Arduino を用いて明るさの変化を計測する。
 \section*{\LARGE{第3講 スイッチの ON/OFF を取得する}}
 Digital Input を用いてスイッチの ON/OFF を取得する。
 
@@ -80,7 +78,7 @@ Digital Input を用いてスイッチの ON/OFF を取得する。
 
 \subsection*{mousePressed}
 mousePressed 変数はマウスが押されているか押されていないかによって、それぞれ true と false に値が変わります。
-これを使うことで、「マウスがクリックされたときに何かをする」という動作が実現できます。
+これを用いると、「マウスがクリックされたときに何かをする」という動作が実現できます。
 
 \begin{lstlisting}
  if (mousePressed) {
@@ -124,12 +122,15 @@ void draw() {
 
 
 \section{Digital Input}
-ここからが本日の本題です。(前回は時間がなかった、とかは内緒)
+ここからが本題です。
+Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみましょう。
+
 
 \subsection*{プルアップ/プルダウン抵抗}
 デジタル回路の場合、入力端子がどこにも接続されていないような状態 (オープン) が起こると、電圧が High または Low に定まらず誤動作の原因になります。
 そのため、回路を安定させるためにプルアップ抵抗/プルダウン抵抗と呼ばれる抵抗を用います。
 
+\subsubsection{回路を組む}
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
   \centering
@@ -142,194 +143,38 @@ void draw() {
   \caption{プルダウン抵抗 (左) とプルアップ抵抗 (右)}
 \end{figure}
 
-
-\section{PWMで明かりをコントロール}
+\subsubsection{プログラムを書く}
 \begin{lstlisting}
-//LEDのフェードインとフェードアウト
-
 import processing.serial.*;
 import cc.arduino.*;
- 
+
 Arduino arduino;
-int ledPin = 3;   //LEDが接続されたピン
-int i = 0;        //カウントアップとダウンに使用
+int switchPin = 8; // スイッチを接続したピンの番号
  
 void setup() {
-  size(400, 200);
-  arduino = new Arduino(this, Arduino.list()[6], 57600);
-  arduino.pinMode(ledPin, Arduino.OUTPUT);   //LEDのピンの出力に設定
+  size(400, 300);
+  arduino = new Arduino(this, Arduino.list()[0], 57600);
+  arduino.pinMode(switchPin, Arduino.INPUT); // ピンモードを Input に
 }
-
+ 
 void draw() {
-  for (i = 0; i < 255; i++) {    //0から254までループ（フェードイン）
-  arduino.analogWrite(ledPin,i); // LEDの明るさをセット
-  delay(10);                     // 10ミリ秒停止 analogWrite()は一瞬なので
-                                 // これがないと変化が目に見えない  
-  }
-  for (i = 255; i > 0; i--) { //255から1まで（フェードアウト）
-    arduino.analogWrite(ledPin,i );
-    delay(10);
+  // 8番ピンの電圧を取得し、それが HIGH ならば
+  if (arduino.digitalRead(switchPin) == Arduino.HIGH) {
+    background(255, 0, 0); // 背景を赤に
+  } else {
+    background(0, 0, 0);   // そうでなければ (LOW ならば) 背景を黒に
   }
 }
 \end{lstlisting}
 
-\section{光センサとは}
-CdSセル: CdS(硫酸カドミウム)を主成分とする電子部品。
-表面に当たる光の量に従って抵抗値が変化する。
-周りが暗いと抵抗値が大きく、明るいと抵抗値が小さくなる。
+\section{Digital Input と Digital Output を組み合わせる}
+スイッチの入力を Processing で取得し、それに基づいて LED を制御しましょう。
+前回やった Digital Input と今回やった Digital Output の合わせ技です。
 
-\begin{itemize}
- \item \textbf{利点}
-       \begin{itemize}
-	\item 可視光線に対して高感度
-	\item 小型で軽量
-	\item 比較的安価
-       \end{itemize}
- \item \textbf{欠点}
-       \begin{itemize}
-	\item 反応速度がやや遅め
-	\item カドミウム = 有害物質
-       \end{itemize}
-\end{itemize}
+これで入力と出力の両方が実現できるようになります。
+次回以降の実習でも入力や出力のための部品が変わるだけで基本的な考え方は同じです。
 
-
-\section{光センサを利用する}
-
-\subsection*{TRY1: 回路を組み立ててみよう}
-回路図を参考にして、光センサと Arduino を接続してみる。
-その際必ず、Arduino は PC から取り外した状態で配線すること!
-
-回路図
-
-\subsection*{Analog Input}
-Analog input の説明とコードをほげほげ
-
-
-\subsection*{TRY2: Processing から Arduino の光センサ値を取得してみよう}
-Processing から光センサの値を取得し光センサの値を観察しよう。
-
-TRY1 で組み立てた回路を用いて、光センサの値を println を使って、ログに表示してみる。
-
-[Hint 1]
-println (表示したい値);
-
-[Hint 2]
-
-\begin{lstlisting}
- import processing.gainer.*;
- Gainer gainer;
-
- void setup(){
-   gainer = new Gainer (this);
-   gainer.???;
- }
-
- void draw(){
-   ???(???);
- }
-\end{lstlisting}
-
-
-\subsection*{TRY3: センサの値をProcessingの画面にを表示してみよう}
-先ほどはコンソール(Processing IDE の下の黒いところ)にセンサから取得した値を表示しましたが、次は Processing の画面に表示してみましょう。
-
-\subsubsection*{Processing で画面に文字を表示する}
-Processing で文字を表示するためには text() を用います。
-\begin{lstlisting}
- void setup() {
-   size(400, 300);
- }
-
- void draw() {
-   // x = 50, y = 100 のところから "Interactive Art" の文字列を描く
-   text("Interactive Art", 50, 100);
- }
-\end{lstlisting}
-
-また、 PFont を用いることによってフォントの種類を変更することができます。
-\begin{lstlisting}
- PFont font;
-
- void setup() {
-   size(400, 300);
- 
-   font = createFont("font_name", 32); // フォントの用意
-   textFont(font, 24);
- }
-
- void draw() {
-   text("Interactive Art", 50, 100);
- }
-\end{lstlisting}
-
-これらを利用して光センサから取得した値を画面に表示してみましょう。
-
-% PFont myFont;
-% PFont オブジェクトの宣言。
-% プログラムの頭に書く。
-% 複数宣言することで、違う種類のフォントを使用することができる。
-
-%  myFont : PFont オブジェクトの名前
-% createFont(“useFont”, 32);
-%  フォントを作成し、PFontオブジェクトに読み込む命令。void setup の中に書く。
-%   “useFont” : 使用したいフォント名 (Arial, MS Gothic, etc...)
-%                   ※IDE上のタブのTools → Create Font... から 確認可能
-  
-% 数字
-% : 作成するフォントのサイズ (大きくしすぎると、処理が重くなる。)
-% textFont(myFont, 24);
-%  使用するフォントの選択をする命令。
-%   myFont = 使用するPFontオブジェクトの名前
-%   数字 = フォントサイズの指定
-% textAlign(LEFT);
-%  文字の揃え位置を指定する命令。
-%   LEFT
-% : 左揃え(初期設定、宣言しなかった場合も)
-%   CENTER : 中央揃え
-%   RIGHT
-% : 右揃え
-% text(“hoge”, x, y);
- 
-%  文字を書く命令。
-%   “hoge” : 表示文字列
-%   x!! : x座標の位置
-%   y!! : y座標の位置
-
-\subsection*{TRY4}
-TRY2、TRY3を参考にし、Processing の文字列 (text) で光センサの値を表示する。
-
-[Hint]
-\begin{lstlisting}
-import processing.gainer.*;
-Gainer myGainer;
-PFont myFont;
-void setup(){
-	
-size(???, ???);
-	
-colorMode(RGB, ???);
-	
-myGainer = new Gainer(this);
-	
-myFont = ??? (“Arial”, 24);
-	
-textFont(myFont);
-	
-textAlign( ??? );
-	
-myGainer.
-???
-;
-}
-void draw(){
-	
-background(?);
-	
-fill(???);
-	
-text(“value = ”+ myGainer.analogInput[0], ???, ???);
-}
- 
-\end{lstlisting}
-
+\subsection*{TRY}前
+回と今回やったことを思い出しながら、回路とプログラムを作成してみましょう。
 \end{document}
+
