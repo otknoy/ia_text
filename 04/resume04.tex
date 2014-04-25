@@ -138,6 +138,8 @@ Processing で文字を表示するためには text() を用います。
 また、 PFont を用いることによってフォントの種類を変更することができます。
 
 Tools → Create Font の説明を！
+分かり難いので図を入れる！
+
 
 \begin{lstlisting}
  PFont font;
@@ -187,6 +189,37 @@ fill(???);
 	
 text(“value = ”+ myGainer.analogInput[0], ???, ???);
 }
+\end{lstlisting}
+
+
+\begin{lstlisting}
+ import processing.serial.*;
+ import cc.arduino.*;
+
+ Arduino arduino;
+ int sensorPin = 6;
+ Font font;
+ 
+ void setup() {
+   size(400, 300);
+
+   arduino = new Arduino(this, Arduino.list()[0], 57600);
+   arduino.pinMode(sensorPin, Arduino.INPUT);
+
+   font = createFont("hogehoge_font", 24);
+ }
+
+ void draw() {
+   int sensorValue = arduino.analogRead(sensorPin);
+
+   background(255);
+ 
+   textFont(font);
+   textAlign(CENTER);
+   fill(0);
+   text("sensorValue = " + sensorValue, 100, 100);
+ }
+
 \end{lstlisting}
 \end{document}
 
