@@ -73,7 +73,74 @@
 \section{Analog Output}
 
 \section{LED を徐々に光らせる}
+\subsection*{プログラム}
+\begin{lstlisting}
+//LEDのフェードインとフェードアウト
+
+import processing.serial.*;
+import cc.arduino.*;
+ 
+Arduino arduino;
+int ledPin = 9;   //LEDが接続されたピン
+
+void setup() {
+  size(255, 255);
+  arduino = new Arduino(this, Arduino.list()[6], 57600);
+  arduino.pinMode(ledPin, Arduino.OUTPUT);   //LEDのピンの出力に設定
+}
+
+void draw() {
+  arduino.analogWrite(ledPin,mouseX);   // LEDの明るさをセット
+}
+\end{lstlisting}
+
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=0.5\columnwidth]{img/LED.eps}
+ \caption{LEDのフェードインとフェードアウトの回路図}
+\end{figure}
 
 \section{フルカラー LED}
+\subsection*{プログラム}
+\begin{lstlisting}
+//フルカラーLEDのフェードインとフェードアウト
+
+import processing.serial.*;
+import cc.arduino.*;
+ 
+Arduino arduino;
+int LED_R = 9;    //LED 赤
+int LED_B = 10;   //LED 青
+int LED_G = 11;   //LED 緑
+
+void setup() {
+  size(255, 255);
+  arduino = new Arduino(this, Arduino.list()[6], 57600);
+  //LEDのピンを出力に設定する
+  arduino.pinMode(LED_R, Arduino.OUTPUT);
+  arduino.pinMode(LED_B, Arduino.OUTPUT);
+  arduino.pinMode(LED_G, Arduino.OUTPUT);
+}
+
+void draw() {
+  // LEDの明るさをセット
+  arduino.analogWrite(LED_R,mouseX);
+  arduino.analogWrite(LED_B,mouseY);
+  arduino.analogWrite(LED_G,);
+}\end{lstlisting}
+
+\begin{figure}[h!]
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[height=60mm]{img/Full_color_LED.eps}
+  \caption{フルカラーLEDの配線図}
+  \label{circuit}
+ \end{minipage}
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[height=60mm]{img/Full_color_LED_circuit.eps}
+  \caption{フルカラーLEDの回路図}
+ \end{minipage}
+\end{figure}
 
 \end{document}
