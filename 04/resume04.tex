@@ -67,51 +67,75 @@
 \begin{document}
 % title
 \section*{\LARGE{第4講 Analog Output を用いて LED を制御する}}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Analog Output}
 
 \section{LED を徐々に光らせる}
+Analog Output を用いる LED を細かく制御することができます。
+
 \subsection*{プログラム}
 \begin{lstlisting}
-//LEDのフェードインとフェードアウト
-
 import processing.serial.*;
 import cc.arduino.*;
  
 Arduino arduino;
-int ledPin = 9;   //LEDが接続されたピン
+int ledPin = 9;   // LEDが接続されたピン番号
 
 void setup() {
   size(255, 255);
   arduino = new Arduino(this, Arduino.list()[6], 57600);
-  arduino.pinMode(ledPin, Arduino.OUTPUT);   //LEDのピンの出力に設定
+  arduino.pinMode(ledPin, Arduino.OUTPUT);   // LEDのピンの出力に設定
 }
 
 void draw() {
-  arduino.analogWrite(ledPin,mouseX);   // LEDの明るさをセット
+  arduino.analogWrite(ledPin, mouseX);   // マウスのx座標をLEDの明るさにする
 }
 \end{lstlisting}
 
+\subsection*{回路}
 \begin{figure}[h!]
  \centering
- \includegraphics[width=0.5\columnwidth]{img/LED.eps}
+ \includegraphics[width=0.5\columnwidth]{img/LED_circuit.eps}
  \caption{LEDのフェードインとフェードアウトの回路図}
 \end{figure}
 
 \section{フルカラー LED}
+フルカラー LED を用いると、光の三原色をそれぞれ制御することによって、様々の色の表現が可能となります。
+フルカラー LED の構造は単純で、内部に赤、緑、青の3つのLEDが入っていると考えれば良いです。
+そのため、単色 LED のときは光り方を制御するために 1 つの Output を用いましたが、
+フルカラー LED の場合は 3 色をそれぞれ制御する必要があるため 3 つの Analog Output を用います。
+また、端子が 4 本出ているものが多いですが、これはアノード(+)またはカソード(-)が3つ分共通になっているためで、それぞれアノードコモン、カソードコモンと呼びます。
+
+\begin{figure}[h!]
+ \begin{minipage}{0.35\columnwidth}
+  \centering
+  \includegraphics[height=40mm]{img/full_color_led_detail.eps}
+  \caption{フルカラー LED}
+ \end{minipage}
+ \begin{minipage}{0.65\columnwidth}
+  本実習では、カソードコモンのものを用いる。% 要確認
+  それぞれの端子は
+  \begin{itemize}
+   \item[R:] 赤
+   \item[G:] 緑
+   \item[B:] 青
+   \item[K:] - (カソード)
+  \end{itemize}
+  に対応する。
+  順番に注意すること！
+ \end{minipage}
+\end{figure}
+
 \subsection*{プログラム}
 \begin{lstlisting}
-//フルカラーLEDのフェードインとフェードアウト
-
 import processing.serial.*;
 import cc.arduino.*;
  
 Arduino arduino;
-int LED_R = 9;    //LED 赤
-int LED_B = 10;   //LED 青
-int LED_G = 11;   //LED 緑
+int LED_R = 9;    // LED 赤
+int LED_B = 10;   // LED 青
+int LED_G = 11;   // LED 緑
 
 void setup() {
   size(255, 255);
@@ -124,11 +148,13 @@ void setup() {
 
 void draw() {
   // LEDの明るさをセット
-  arduino.analogWrite(LED_R,mouseX);
-  arduino.analogWrite(LED_B,mouseY);
-  arduino.analogWrite(LED_G,);
-}\end{lstlisting}
+  arduino.analogWrite(LED_R, mouseX);
+  arduino.analogWrite(LED_B, mouseY);
+  arduino.analogWrite(LED_G, 127);
+}
+\end{lstlisting}
 
+\subsection*{回路}
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
   \centering
