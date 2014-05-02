@@ -102,21 +102,47 @@ Analog Output の場合は 0〜255 の値で自由に設定できます。
 これにより、緩やかに LED の明るさを変化させるといったことが可能になります。
 
 \section{LED を徐々に光らせる}
-では、実際に LED の光り方を細かく制御してみましょう。
+では、Analog Output を用いて実際に LED の光り方を細かく制御してみましょう。
+
+\subsection*{mouseX と mouseY}
+ついでに Processing の新しい命令を覚えましょう。
+前回の実習で、マウスボタンの ON/OFF (true/false) を mousePressed 変数で取得できることを学びました。
+今回はボタンを押したかどうかではなく、マウスポインタの座標を取得してみましょう。
+マウスポインタの x 座標と y 座標を取得するためにはそれぞれ mouseX 変数と mouseY 変数を用います。
+
+\subsubsection*{サンプルプログラム}
+\begin{lstlisting}
+ void setup() {
+   size(256, 256);
+ }
+
+ void draw() {
+   background(0);
+   // マウスポインタの座標に円を描く
+   ellsepse(mouseX, mouseY, 32, 32);
+ }
+\end{lstlisting}
+
+今回は、 mouseX、mouseY の値によって LED の明るさを変化させる、ということをやってみます。
+
+回路は前回とほとんど同じで OK ですが、接続するピンに注意してください (ledPin を自分の回路で用
+いてるピンと置き換える)。
+また、PWM を用いる場合は、番号の前に ''$\sim$'' が付いているピン ($\sim9$ とか) を用いてください。こちらにも注意！
+
 
 \subsection*{プログラム}
 \begin{lstlisting}
-import processing.serial.*;
-import cc.arduino.*;
+ import processing.serial.*;
+ import cc.arduino.*;
  
-Arduino arduino;
-int ledPin = 9;   // LEDが接続されたピン番号
+ Arduino arduino;
+ int ledPin = 9;   // LEDが接続されたピン番号
 
-void setup() {
-  size(255, 255);
-  arduino = new Arduino(this, Arduino.list()[6], 57600);
-  arduino.pinMode(ledPin, Arduino.OUTPUT);   // LEDのピンの出力に設定
-}
+ void setup() {
+   size(256, 256);
+   arduino = new Arduino(this, Arduino.list()[6], 57600);
+   arduino.pinMode(ledPin, Arduino.OUTPUT);
+ }
 
 void draw() {
   // マウスのx座標をLEDの明るさにする 
@@ -169,7 +195,7 @@ int LED_B = 10;   // LED 青
 int LED_G = 11;   // LED 緑
 
 void setup() {
-  size(255, 255);
+  size(256, 256);
   arduino = new Arduino(this, Arduino.list()[6], 57600);
   //LEDのピンを出力に設定する
   arduino.pinMode(LED_R, Arduino.OUTPUT);
