@@ -83,17 +83,18 @@ Tools → Create Font の説明を！
  PFont font;
 
  void setup() {
-   size(400, 300);
- 
-   font = createFont("font_name", 32); // フォントの準備
+   size(300, 300);
+
+   // Create Font で作ったフォントを読み込む
+   font = loadFont("Serif-48.vlw");
  }
 
  void draw() {
    background(255);
 
+   textFont(font, 32); // 使うフォントとその大きさの指定
    fill(0);
-   textFont(font, 24);
-   text("Interactive Art", 50, 100);
+   text("Interactive Art", 64, 64); // 文字を描く
  }
 \end{lstlisting}
 
@@ -173,5 +174,3 @@ Analog Input を使う場合は A0 〜 A5 ピンを用いなければなりま�
 
 
 \end{document}
-
- 
