@@ -150,19 +150,23 @@ Analog Input を使う場合は A0 〜 A5 ピンを用いなければなりま�
  
  Arduino arduino;
  int sensorPin = 3; // 光センサを A3 番ピンに接続した場合
+ PFont = font;
  
  void setup() {
-   arduino = new Arduino(this, Arduino.list()[0], 57600);
-   arduino.pinMode(sensorPin, Arduino.INPUT); // ピンモードを INPUT に
+   size(300, 300);
+
+   arduino = new Arduino(this, Arduino.list()[0]);
+   font = loadFont("Serif-48.vlw");
  }
 
  void draw() {
-   int sensorValue = arduino.analogRead(sensorPin); // Analog Input
    background(255);
 
+   int sensorValue = arduino.analogRead(sensorPin); // Analog Input
+
+   textFont(font, 32);
    fill(0);
-   textFont(font, 24);
-   text("sensor value: " + sensorValue, 50, 100);
+   text("sensor value: " + sensorValue, 64, 64);
 }
 \end{lstlisting}
 
