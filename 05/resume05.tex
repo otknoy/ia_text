@@ -74,10 +74,22 @@ Arduino の Analog Input を用いて光センサや圧力センサ、曲げセ�
 \section{Processingの画面に文字を表示する}
 Processing では、矩形や円のような図形だけではなく、文字を描くこともできます。
 文字を表示するには text() を用います。
-また、 PFont と textfont() を用いることによってフォントの種類や大きさを変更することができます。
+また、 PFont と textFont() を用いることによってフォントの種類や大きさを変更することができます。
 
-Tools → Create Font の説明を！
-分かり難いので図を入れる！
+PFont を用いて任意のフォントを使用するためには、フォントファイルを用意しなければなりませんが、
+Processing には簡単にフォントファイルを用意するための機能が備わっています。
+\begin{enumerate}
+ \item メニューから  Tools → Create Font を選択する
+ \item 使いたいフォントを選択する
+ \item フォントの名前が表示されているのを確認する (例、Serif-48.vlw ← コイツを覚えておくこと！)
+ \item OK ボタンを押す
+\end{enumerate}
+これで、data ディレクトリ\footnote{}
+の中にフォントファイルが生成されたと思います。
+これで、loadFont() を用いて生成したフォントファイルを読み込むことで、好きなフォントを使うことができます
+
+% 分かり難いので図を入れる！
+% めんどい
 
 \begin{lstlisting}
  PFont font;
@@ -100,15 +112,23 @@ Tools → Create Font の説明を！
 
 
 \section{Analog Input}
-Analog Input の説明をほげほげ
+Arduino には、Analog Output と同様に Analog Input もあります。
+Analog Input を用いる場合は A0 〜 A5 ピンに接続してください。
 
-Processing から Digital Input を使う場合はは arduino.digitalRead(pinNum); を使いましたが、
-Analog Input を使うの場合は代わりに arduino.analogRead(pinNum); を使います。
-
+Processing から Analog Input を使って値を取得するには、
+\begin{lstlisting}
+ arduino.analogRead(pinNum);
+\end{lstlisting}
+を用います。
+pinNum は 0 〜 5 (それぞれ、A0 〜 A5 に対応) で指定してください。
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=0.6\columnwidth]{img/analog_input_pins.eps}
+\end{figure}
 
 \section{光センサを使う}
 光センサとは、表面に当たる光の量に従って抵抗値が変化する電子部品です。
-周りが暗いと抵抗値が大きく、明るいと抵抗値が小さくなります。
+周りが暗いと抵抗値が大きくなり、明るいと抵抗値が小さくなります。
 
 実習で使う光センサは CdSセル: CdS(硫酸カドミウム)を主成分とするものです。
 
@@ -128,8 +148,8 @@ Analog Input を使うの場合は代わりに arduino.analogRead(pinNum); を�
 
 % 光センサの写真でも入れる
 
-\subsection*{センサの抵抗値を測ってみよう}
-テスターを使ってほげほげ
+% \subsection*{センサの抵抗値を測ってみよう}
+% テスターを使ってほげほげ
 
 \subsection*{光センサの値を取得する}
 光センサの値を取得するためには、Analog Input を用います。
