@@ -79,14 +79,14 @@ Processing では、矩形や円のような図形だけではなく、文字を
 PFont を用いて任意のフォントを使用するためには、フォントファイルを用意しなければなりませんが、
 Processing には簡単にフォントファイルを用意するための機能が備わっています。
 \begin{enumerate}
- \item メニューから  Tools → Create Font を選択する
+ \item メニューから Tools → Create Font を選択する
  \item 使いたいフォントを選択する
  \item フォントの名前が表示されているのを確認する (例、Serif-48.vlw ← コイツを覚えておくこと！)
  \item OK ボタンを押す
 \end{enumerate}
-これで、data ディレクトリ\footnote{}
+これで、data フォルダ\footnote{作成しているプログラムと同じフォルダの中にある。フォントファイルや画像ファイルなど、プログラムから読み込みたいファイルなどはここに入れておくとよい。メニューの Sketch → Show Sketch Folder から作成しているプログラムが入っているフォルダを開ける。}
 の中にフォントファイルが生成されたと思います。
-これで、loadFont() を用いて生成したフォントファイルを読み込むことで、好きなフォントを使うことができます
+loadFont() を用いて生成したフォントファイルを読み込むことで、好きなフォントを使うことができます
 
 % 分かり難いので図を入れる！
 % めんどい
@@ -109,7 +109,10 @@ Processing には簡単にフォントファイルを用意するための機能
    text("Interactive Art", 64, 64); // 文字を描く
  }
 \end{lstlisting}
+ウィンドウの中に Interactive Art の文字列が表示されると思います。
+できましたか？
 
+\newpage
 
 \section{Analog Input}
 Arduino には、Analog Output と同様に Analog Input もあります。
@@ -121,6 +124,8 @@ Processing から Analog Input を使って値を取得するには、
 \end{lstlisting}
 を用います。
 pinNum は 0 〜 5 (それぞれ、A0 〜 A5 に対応) で指定してください。
+Digital Input を用いたときのような、PINモードの設定は必要ありません。
+
 \begin{figure}[h!]
  \centering
  \includegraphics[width=0.6\columnwidth]{img/analog_input_pins.eps}
@@ -129,6 +134,7 @@ pinNum は 0 〜 5 (それぞれ、A0 〜 A5 に対応) で指定してくださ
 \section{光センサを使う}
 光センサとは、表面に当たる光の量に従って抵抗値が変化する電子部品です。
 周りが暗いと抵抗値が大きくなり、明るいと抵抗値が小さくなります。
+テスターを使って抵抗値の変化を測ってみましょう。
 
 実習で使う光センサは CdSセル: CdS(硫酸カドミウム)を主成分とするものです。
 
@@ -145,15 +151,12 @@ pinNum は 0 〜 5 (それぞれ、A0 〜 A5 に対応) で指定してくださ
 	\item カドミウム = 有害物質 (ゼッタイに食うな！)
        \end{itemize}
 \end{itemize}
-
 % 光センサの写真でも入れる
-
-% \subsection*{センサの抵抗値を測ってみよう}
-% テスターを使ってほげほげ
 
 \subsection*{光センサの値を取得する}
 光センサの値を取得するためには、Analog Input を用います。
-Analog Input を使う場合は A0 〜 A5 ピンを用いなければなりません。接続するピンに注意してください。
+Analog Input を使う場合は前述のように A0 〜 A5 ピンを用いる必要があります。
+接続するピンに注意してください。
 
 \subsubsection*{回路}
 \begin{figure}[h!]
@@ -190,6 +193,7 @@ Analog Input を使う場合は A0 〜 A5 ピンを用いなければなりま�
 }
 \end{lstlisting}
 
+\newpage
 
 \section{圧力センサを使う}
 圧力センサとは、ほげほげ。
