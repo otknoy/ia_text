@@ -136,22 +136,31 @@ Digital Input を用いたときのような、PINモードの設定は必要あ
 周りが暗いと抵抗値が大きくなり、明るいと抵抗値が小さくなります。
 テスターを使って抵抗値の変化を測ってみましょう。
 
-実習で使う光センサは CdSセル: CdS(硫酸カドミウム)を主成分とするものです。
+実習で使う光センサは CdSセル (CdS: 硫酸カドミウム) を主成分とするものです。
 
-\begin{itemize}
- \item \textbf{利点}
-       \begin{itemize}
-	\item 可視光線に対して高感度
-	\item 小型で軽量
-	\item 比較的安価
-       \end{itemize}
- \item \textbf{欠点}
-       \begin{itemize}
-	\item 反応速度がやや遅め
-	\item カドミウム = 有害物質 (ゼッタイに食うな！)
-       \end{itemize}
-\end{itemize}
-% 光センサの写真でも入れる
+\begin{figure}[h!]
+ \begin{minipage}{0.666\columnwidth}
+  \begin{itemize}
+   \item \textbf{利点}
+	 \begin{itemize}
+	  \item 可視光線に対して高感度
+	  \item 小型で軽量
+	  \item 比較的安価
+	 \end{itemize}
+   \item \textbf{欠点}
+	 \begin{itemize}
+	  \item 反応速度がやや遅め
+	  \item カドミウム = 有害物質 (ゼッタイに食うな！)
+	 \end{itemize}
+  \end{itemize}
+ \end{minipage}
+ \begin{minipage}{0.333\columnwidth}
+  \centering
+  \includegraphics[width=\columnwidth]{img/cds_cell.eps}
+  \caption{CdS セル}
+ \end{minipage}
+\end{figure}
+
 
 \subsection*{光センサの値を取得する}
 光センサの値を取得するためには、Analog Input を用います。
