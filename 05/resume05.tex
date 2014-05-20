@@ -73,7 +73,7 @@ Arduino の Analog Input を用いて光センサや圧力センサの値を取�
 
 \section{Processingの画面に文字を表示する}
 Processing では、矩形や円のような図形だけではなく、文字を描くこともできます。
-文字を表示するには text() を用います。
+文字を描画するには text() を用います。
 また、 PFont と textFont() を用いることによってフォントの種類や大きさを変更することができます。
 
 PFont を用いて任意のフォントを使用するためには、フォントファイルを用意しなければなりませんが、
@@ -86,7 +86,7 @@ Processing には簡単にフォントファイルを用意するための機能
 \end{enumerate}
 これで、data フォルダ\footnote{作成しているプログラムと同じフォルダの中にある。フォントファイルや画像ファイルなど、プログラムから読み込みたいファイルなどはここに入れておくとよい。メニューの Sketch → Show Sketch Folder から作成しているプログラムが入っているフォルダを開ける。}
 の中にフォントファイルが生成されたと思います。
-loadFont() を用いて生成したフォントファイルを読み込むことで、好きなフォントを使うことができます
+loadFont() を用いて生成したフォントファイルを読み込むことで、好きなフォントを使うことができます。
 
 % 分かり難いので図を入れる！
 % めんどい
@@ -106,10 +106,10 @@ loadFont() を用いて生成したフォントファイルを読み込むこと
 
    textFont(font, 32); // 使うフォントとその大きさの指定
    fill(0);
-   text("Interactive Art", 64, 64); // 文字を描く
+   text("Interactive Art", 32, 32); // 文字を描く
  }
 \end{lstlisting}
-ウィンドウの中に Interactive Art の文字列が表示されると思います。
+このプログラムを実行すると、Processing のウィンドウの中に Interactive Art の文字列が描画されると思います。
 できましたか？
 
 \newpage
@@ -181,7 +181,7 @@ Analog Input を使う場合は前述のように A0 〜 A5 ピンを用いる�
  import cc.arduino.*;
  
  Arduino arduino;
- int sensorPin = 3; // 光センサを A3 番ピンに接続した場合
+ int sensorPin = 0; // 光センサを A0 番ピンに接続する場合
  PFont font;
  
  void setup() {
@@ -198,7 +198,7 @@ Analog Input を使う場合は前述のように A0 〜 A5 ピンを用いる�
 
    textFont(font, 32);
    fill(0);
-   text("sensor value: " + sensorValue, 64, 64);
+   text("sensor value: " + sensorValue, 32, 32);
  }
 \end{lstlisting}
 
