@@ -187,15 +187,28 @@ FET を用いることで、モーターに流す電流を制御し、モータ�
 % 一つ一つ画像を入れたほうが良さそう
 
 \subsection*{回路}
-% \begin{figure}[h!]
-%  \centering
-%  \includegraphics[width=\columnwidth]{img/motor_control.eps}
-%  \caption{モーター制御のための回路図}
-% \end{figure}
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=0.5\columnwidth]{img/motor_control.eps}
+ \caption{モーター制御のための回路図}
+\end{figure}
 
 \subsection*{プログラム}
 \begin{lstlisting}
+import processing.serial.*;
+import cc.arduino.*;
  
+Arduino arduino;
+int MOTOR = 9;
+ 
+void setup() {
+  arduino = new Arduino(this, Arduino.list()[6], 57600);
+  arduino.pinMode(MOTOR, Arduino.OUTPUT);
+}
+ 
+void draw() {
+  arduino.analogWrite(MOTOR,128);
+}
 \end{lstlisting}
 
 \section{赤外線センサからの入力に基づいてモーターを制御する}
