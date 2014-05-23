@@ -93,11 +93,11 @@
 \end{itembox}
 
 \subsection*{回路}
- \begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.5\columnwidth]{img/Sekigai.eps}
-  \caption{赤外線センサを用いた回路図}
- \end{figure}
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=0.5\columnwidth]{img/Sekigai.eps}
+ \caption{赤外線センサを用いた回路図}
+\end{figure}
 
 
 \subsection*{プログラム}
@@ -207,16 +207,16 @@ import processing.serial.*;
 import cc.arduino.*;
  
 Arduino arduino;
-int MOTOR = 9;   // モータが接続されたピン
+int motorPin = 9;   // モータが接続されたピン
  
 void setup() {
   size(255, 255);
-  arduino = new Arduino(this, Arduino.list()[6], 57600);
-  arduino.pinMode(MOTOR, Arduino.OUTPUT);   // モータのピンを出力に設定
+  arduino = new Arduino(this, Arduino.list()[6]);
+  arduino.pinMode(motorPin, Arduino.OUTPUT);   // モータのピンを出力に設定
 }
  
 void draw() {
-  arduino.analogWrite(MOTOR,mouseX);   // モータの回転数をセット
+  arduino.analogWrite(motorPin, mouseX);   // モータの回転数をセット
 }
 \end{lstlisting}
 
