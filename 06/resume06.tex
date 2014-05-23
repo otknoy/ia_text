@@ -215,15 +215,16 @@ import processing.serial.*;
 import cc.arduino.*;
  
 Arduino arduino;
-int MOTOR = 9;
+int MOTOR = 9;   // モータが接続されたピン
  
 void setup() {
+  size(255, 255);
   arduino = new Arduino(this, Arduino.list()[6], 57600);
-  arduino.pinMode(MOTOR, Arduino.OUTPUT);
+  arduino.pinMode(MOTOR, Arduino.OUTPUT);   // モータのピンを出力に設定
 }
  
 void draw() {
-  arduino.analogWrite(MOTOR, 128);
+  arduino.analogWrite(MOTOR,mouseX);   // モータの回転数をセット
 }
 \end{lstlisting}
 
