@@ -93,11 +93,11 @@
 \end{itembox}
 
 \subsection*{回路}
-% \begin{figure}[h!]
-%  \centering
-%  \includegraphics[width=\columnwidth]{img/ir_sensor.eps}
-%  \caption{赤外線センサを用いた回路図}
-% \end{figure}
+ \begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.5\columnwidth]{img/Sekigai.eps}
+  \caption{赤外線センサを用いた回路図}
+ \end{figure}
 
 
 \subsection*{プログラム}
@@ -136,14 +136,23 @@
 距離センサの値を取得して、数値がどのように変化するのか観察してみましょう。
 また、センサの値が実際の距離とどのように対応付いているのをメモしておいてください。
 
-% \subsection*{map関数}
-% Processing には map 関数という機能が用意されています。
+ \subsection*{map関数}
+ Processing には map 関数という機能が用意されています。
 % 説明入れて
+map関数はxを範囲xMin〜xMaxから別の範囲yMin〜yMaxへ変換する関数です。
+map関数を利用して、センサの値を実際の距離の計測値に変換してみましょう。
 % 例えば、
-% \begin{lstlisting}
-%  float y = map(x, 0, 255, yMin, yMax);
-% \end{lstlisting}
-% map 関数は非常に便利なので覚えておくとよいでしょう。
+ \begin{lstlisting}
+  float y = map(x, 0, 255, yMin, yMax);
+ \end{lstlisting}
+ \begin{itemize}
+\item	x	=	変換したい変数の名前
+\item	xMin	=	センサで得られる下限値
+\item	xMax	=	センサで得られる上限値
+\item	yMin	=	変換したい（割り当てたい）変数の下限値
+\item	yMax	=	変換したい（割り当てたい）変数の上限値
+\end{itemize}
+ map 関数は非常に便利なので覚えておくとよいでしょう。
 
 % これ、意味わかるかな？
 \begin{lstlisting}
