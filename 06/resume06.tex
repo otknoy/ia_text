@@ -94,9 +94,20 @@
 
 \subsection*{回路}
 \begin{figure}[h!]
- \centering
- \includegraphics[width=0.5\columnwidth]{img/Sekigai.eps}
- \caption{赤外線センサを用いた回路図}
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[height=100mm]{img/Sekigai.eps}
+  \begin{center}
+   \textbf{赤外線センサ}
+  \end{center}
+ \end{minipage}
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[height=100mm]{img/Sekigai.eps}
+  \begin{center}
+   \textbf{赤外線センサを用いた回路図}
+  \end{center}
+ \end{minipage}
 \end{figure}
 
 
@@ -179,26 +190,35 @@ FET を用いることで、モーターに流す電流を制御し、モータ�
  \begin{minipage}{0.32\columnwidth}
   \centering
   \includegraphics[width=\columnwidth]{img/motor.eps}
-  \textbf{モーター(RE-140RA)}
+  \begin{center}
+   \textbf{モーター(RE-140RA)}
+  \end{center}
  \end{minipage}
  \begin{minipage}{0.32\columnwidth}
   \centering
   \includegraphics[width=\columnwidth]{img/fet.eps}
-  \textbf{FET (2SK2232)}
+  \begin{center}
+   \textbf{FET (2SK2232)}
+  \end{center}
  \end{minipage}
  \begin{minipage}{0.32\columnwidth}
   \centering
   \includegraphics[width=\columnwidth]{img/diode.eps}
-  \textbf{ダイオード}
+  \begin{center}
+   \textbf{ダイオード}
+  \end{center}
  \end{minipage}
 \end{figure}
 
+\newpage
 
 \subsection*{回路}
 \begin{figure}[h!]
  \centering
  \includegraphics[width=0.5\columnwidth]{img/motor_control.eps}
- \caption{モーター制御のための回路図}
+ \begin{center}
+  \textbf{モーター制御のための回路図}
+ \end{center}
 \end{figure}
 
 \subsection*{プログラム}
@@ -222,18 +242,18 @@ void draw() {
 
 
 \section{赤外線センサからの入力に基づいてモーターを制御する}
+今回の内容を踏まえて、
+赤外線センサを用いて取得した距離に基づいて、モーターの回転速度を制御してみよう。
 
-\subsection*{回路}
+% \subsection*{回路}
 % \begin{figure}[h!]
 %  \centering
 %  \includegraphics[width=\columnwidth]{img/motor_control.eps}
 %  \caption{モーター制御のための回路図}
 % \end{figure}
 
-\subsection*{プログラム}
-\begin{lstlisting}
- 
-\end{lstlisting}
-
+% \subsection*{プログラム}
+% \begin{lstlisting}
+% \end{lstlisting}
 
 \end{document}
