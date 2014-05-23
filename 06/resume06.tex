@@ -165,26 +165,33 @@
 \end{lstlisting}
 
 
-
 \section{モーターを回転速度を制御する}
 モーターを制御する回路にはいくつか種類がありますが、今回は配線が簡単な電界効果トランジスタ (FET: Field effect transistor) を使用した回路を用います。
 モーターを回転させるには、比較的大きな電流が必要なため、Arduino の出力だけでは、モータを回転させ続けるパワーが足りません。
-そのため、外部電源からモーターに電力を供給し、Arduino や Processing で制御するために必要となるのが FTE である。
+そのため、外部電源からモーターに電力を供給し、Arduino や Processing で制御するために必要となるのが FTE です。
 FET を用いることで、モーターに流す電流を制御し、モーターの回転数を変化させることができます (電流が多く流れると早く回る)。
 
+\subsection*{用いる部品}
+今回は簡単にするためにに外部電源を使わずにやってみます。
+各部品が手元にあるか確認してください。
+\begin{figure}[h!]
+ \begin{minipage}{0.32\columnwidth}
+  \centering
+  \includegraphics[width=\columnwidth]{img/motor.eps}
+  \textbf{モーター(RE-140RA)}
+ \end{minipage}
+ \begin{minipage}{0.32\columnwidth}
+  \centering
+  \includegraphics[width=\columnwidth]{img/fet.eps}
+  \textbf{FET (2SK2232)}
+ \end{minipage}
+ \begin{minipage}{0.32\columnwidth}
+  \centering
+  \includegraphics[width=\columnwidth]{img/diode.eps}
+  \textbf{ダイオード}
+ \end{minipage}
+\end{figure}
 
-今回はいつもよりも多くの電子部品を使います。
-それぞれ各自、以下の部品が手元にあるか、確認してください。
-\begin{itemize}
- \item モーター(RE-140RA) 1個
- \item FET (2SK2232) 1個
- \item 赤外線距離センサ 1個
- \item 抵抗器(10kΩ) 1個
- \item 単4型乾電池 2個
- \item 電池ケース 1個
- \item ダイオード 1個
-\end{itemize}
-% 一つ一つ画像を入れたほうが良さそう
 
 \subsection*{回路}
 \begin{figure}[h!]
@@ -207,9 +214,10 @@ void setup() {
 }
  
 void draw() {
-  arduino.analogWrite(MOTOR,128);
+  arduino.analogWrite(MOTOR, 128);
 }
 \end{lstlisting}
+
 
 \section{赤外線センサからの入力に基づいてモーターを制御する}
 
