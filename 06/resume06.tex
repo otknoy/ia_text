@@ -279,6 +279,75 @@ Processingでは、矩形や円などの単純な図形と同様に画像を表�
 
 \subsection*{ArduinoのInput/Outputまとめ}
 
+\subsubsection*{Digital Input/Output}
+\begin{lstlisting}
+ import processing.serial.*;
+ import cc.arduino.*;
+
+ Arduino arduino;
+
+ int inputPin  = 0;
+ int outputPin = 1;
+
+ void setup() {
+   // COMポートの指定は各々異なるので、
+   // デバイスマネージャなどで調べて変更する
+   arduino = new Arduino(this, Arduino.list()[0]);
+
+   // inputPinをInputに
+   ardino.pinMode(inputPin,  Arduino.INPUT);
+
+   // outputPinをOutputに 
+   ardino.pinMode(outputPin, Arduino.OUTPUT);
+ }
+
+ void draw() {
+   // Digital Input
+   // 戻り値: Arduino.HIGH or Arduino.LOW
+   int input = arduino.digital Read(inputPin);
+
+   // Digital Output
+   // outputPinをHIGH(5V)に
+   arduino.digitalWrite(outputPin, Arduino.HIGH);
+   // outputPinをLOW(0V)に
+   arduino.digitalWrite(outputPin, Arduino.LOW);
+ } 
+\end{lstlisting}
+
+
+\subsubsection*{Analog Input/Output}
+\begin{lstlisting}
+ import processing.serial.*;
+ import cc.arduino.*;
+
+ Arduino arduino;
+
+ int inputPin  = 0; // A0を使うときは0に
+ int outputPin = 9; // PWMが使えるピンを選ぶ 
+
+ void setup() {
+   arduino = new Arduino(this, Arduino.list()[0]);
+
+   // Analog Input を使うときは Pin Mode の設定は必要ない
+   // ardino.pinMode(inputPin,  Arduino.INPUT);
+
+   // outputPinをOutputに 
+   ardino.pinMode(outputPin, Arduino.OUTPUT);
+ }
+
+ void draw() {
+   // Analog Input
+   // 戻り値: 0〜1023の整数
+   int input = arduino.analogRead(inputPin);
+
+   // Analog Output
+   // Analogなので、outputする値を0〜255で指定
+   arduino.digitalWrite(outputPin, 0);
+   arduino.digitalWrite(outputPin, 127);
+   arduino.digitalWrite(outputPin, 255);
+ } 
+\end{lstlisting}
+
 
 
 \end{document}
